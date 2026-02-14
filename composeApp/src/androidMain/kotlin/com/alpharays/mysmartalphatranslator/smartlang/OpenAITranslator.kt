@@ -16,7 +16,7 @@ import org.json.JSONObject
 
 object OpenAITranslator {
     private const val OPENAI_API_KEY =
-        "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"
+        ""
     private const val OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 
     suspend fun translate(text: String, targetLang: String): String = withContext(Dispatchers.IO) {
