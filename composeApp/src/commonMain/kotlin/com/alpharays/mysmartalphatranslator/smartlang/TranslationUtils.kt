@@ -1,7 +1,5 @@
 package com.alpharays.mysmartalphatranslator.smartlang
 
-import kotlin.experimental.and
-
 object TranslationUtils {
 
     /**
