@@ -3,14 +3,21 @@
  * Date: 15/11/25
  */
 
-package app.yulu.design.yulang.local
+package com.alpharays.mysmartalphatranslator.smartlang.local
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.RoomDatabaseConstructor
 import com.alpharays.mysmartalphatranslator.smartlang.local.dao.TranslationCacheDao
 import com.alpharays.mysmartalphatranslator.smartlang.local.entity.TranslationCacheEntity
 
-@Database(entities = [TranslationCacheEntity::class], version = 1, exportSchema = false)
+@Database(entities = [TranslationCacheEntity::class], version = 1, exportSchema = true)
+@ConstructedBy(TranslationAppDatabaseConstructor::class)
 abstract class TranslationAppDatabase : RoomDatabase() {
     abstract fun translationCacheDao(): TranslationCacheDao
 }
+
+// Room KMP requires this for multiplatform database construction
+@Suppress("NO_ACTUAL_FOR_EXPECT")
+expect object TranslationAppDatabaseConstructor : RoomDatabaseConstructor<TranslationAppDatabase>

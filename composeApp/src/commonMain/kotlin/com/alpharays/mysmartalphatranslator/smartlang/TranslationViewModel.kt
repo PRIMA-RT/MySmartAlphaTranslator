@@ -9,13 +9,10 @@ import androidx.lifecycle.ViewModel
 import com.alpharays.mysmartalphatranslator.smartlang.TranslationUtils.generateStableHash
 import com.alpharays.mysmartalphatranslator.smartlang.data.TranslationRepository
 import com.alpharays.mysmartalphatranslator.smartlang.local.entity.TranslationCacheEntity
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
 
-@HiltViewModel
-class TranslationViewModel @Inject constructor(
+class TranslationViewModel(
     private val repository: TranslationRepository
 ) : ViewModel() {
 
@@ -48,9 +45,9 @@ class TranslationViewModel @Inject constructor(
         }
 
         val translated = if (_translatorModel.value == TranslatorModel.OpenAi) {
-            OpenAITranslator.translate(text, _language.value)
+            PlatformTranslator.translateWithOpenAI(text, _language.value)
         } else {
-            GoogleMlKitTranslator.translate(text, _language.value)
+            PlatformTranslator.translateWithMlKit(text, _language.value)
         }
 
         memoryCache[key] = translated

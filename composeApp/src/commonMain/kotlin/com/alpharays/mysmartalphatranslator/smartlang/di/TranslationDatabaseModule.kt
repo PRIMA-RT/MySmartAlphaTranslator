@@ -5,32 +5,23 @@
 
 package com.alpharays.mysmartalphatranslator.smartlang.di
 
-import android.content.Context
-import androidx.room.Room
-import app.yulu.design.yulang.local.TranslationAppDatabase
-import com.alpharays.mysmartalphatranslator.smartlang.local.dao.TranslationCacheDao
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.alpharays.mysmartalphatranslator.smartlang.TranslationViewModel
+import com.alpharays.mysmartalphatranslator.smartlang.data.TranslationRepository
+import com.alpharays.mysmartalphatranslator.smartlang.local.TranslationAppDatabase
+import org.koin.core.module.dsl.viewModel
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object TranslationDatabaseModule {
+/**
+ * Common Koin module for translation layer.
+ * Platform-specific database builder provided via [platformDatabaseModule].
+ */
+val translationModule = module {
+    // DAO from the database
+    single { get<TranslationAppDatabase>().translationCacheDao() }
 
-    @Provides
-    @Singleton
-    fun provideTranslationAppDatabase(context: Context): TranslationAppDatabase {
-        return Room.databaseBuilder(
-            context,
-            TranslationAppDatabase::class.java,
-            "translation_db"
-        ).build()
-    }
+    // Repository
+    single { TranslationRepository(get()) }
 
-    @Provides
-    fun provideTranslationCacheDao(db: TranslationAppDatabase): TranslationCacheDao {
-        return db.translationCacheDao()
-    }
+    // ViewModel
+    viewModel { TranslationViewModel(get()) }
 }

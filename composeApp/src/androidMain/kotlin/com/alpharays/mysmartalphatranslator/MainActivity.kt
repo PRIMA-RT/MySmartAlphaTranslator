@@ -5,15 +5,30 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.tooling.preview.Preview
+import com.alpharays.mysmartalphatranslator.smartlang.LocalTranslator
+import com.alpharays.mysmartalphatranslator.smartlang.TranslationViewModel
+import com.alpharays.mysmartalphatranslator.smartlang.TranslatorProvider
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
+
+    private val translationViewModel: TranslationViewModel by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        val translatorProvider = TranslatorProvider(
+            currentLanguage = translationViewModel.language,
+            translate = { text -> translationViewModel.translate(text) }
+        )
+
         setContent {
-            App()
+            CompositionLocalProvider(LocalTranslator provides translatorProvider) {
+                App()
+            }
         }
     }
 }
