@@ -47,14 +47,14 @@ object GoogleMlKitTranslator {
             "swedish" -> TranslateLanguage.SWEDISH
             "english" -> TranslateLanguage.ENGLISH
             else -> {
-                println("YuLangLogging Unsupported language: $targetLang, defaulting to English")
+                println("AlphaLangLogging Unsupported language: $targetLang, defaulting to English")
                 TranslateLanguage.ENGLISH
             }
         }
     }
 
     suspend fun translate(text: String, targetLang: String): String = withContext(Dispatchers.IO) {
-        println("YuLangLogging Translating '$text' to $targetLang")
+        println("AlphaLangLogging Translating '$text' to $targetLang")
 
         try {
             val targetLanguageCode = getLanguageCode(targetLang)
@@ -72,13 +72,13 @@ object GoogleMlKitTranslator {
                 .requireWifi()
                 .build()
 
-            println("YuLangLogging Ensuring translation model is downloaded for $targetLang")
+            println("AlphaLangLogging Ensuring translation model is downloaded for $targetLang")
             translator.downloadModelIfNeeded(conditions).await()
 
             // Perform translation
             val translatedText = translator.translate(text).await()
 
-            println("YuLangLogging Translation Result: $translatedText")
+            println("AlphaLangLogging Translation Result: $translatedText")
 
             // Close the translator to free up resources
             translator.close()
@@ -86,7 +86,7 @@ object GoogleMlKitTranslator {
             return@withContext translatedText
         } catch (e: Exception) {
             e.printStackTrace()
-            println("YuLangLogging Error translating '$text': ${e.message}")
+            println("AlphaLangLogging Error translating '$text': ${e.message}")
             return@withContext text
         }
     }

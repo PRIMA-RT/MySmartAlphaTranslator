@@ -12,13 +12,13 @@ package com.alpharays.mysmartalphatranslator.smartlang
 actual object PlatformTranslator {
     actual suspend fun translateWithMlKit(text: String, targetLang: String): String {
         // TODO: Implement iOS translation using Apple's Translation framework
-        println("YuLangLogging iOS ML Kit not available, returning original text")
+        println("AlphaLangLogging iOS ML Kit not available, returning original text")
         return text
     }
 
     actual suspend fun translateWithOpenAI(text: String, targetLang: String): String {
         // TODO: Implement via Ktor HTTP client on iOS
-        println("YuLangLogging iOS OpenAI not yet implemented, returning original text")
+        println("AlphaLangLogging iOS OpenAI not yet implemented, returning original text")
         return text
     }
 }

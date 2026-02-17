@@ -10,12 +10,12 @@ package com.alpharays.mysmartalphatranslator.smartlang
  */
 actual object PlatformTranslator {
     actual suspend fun translateWithMlKit(text: String, targetLang: String): String {
-        println("YuLangLogging WASM ML Kit not available, returning original text")
+        println("AlphaLangLogging WASM ML Kit not available, returning original text")
         return text
     }
 
     actual suspend fun translateWithOpenAI(text: String, targetLang: String): String {
-        println("YuLangLogging WASM OpenAI not yet implemented, returning original text")
+        println("AlphaLangLogging WASM OpenAI not yet implemented, returning original text")
         return text
     }
 }

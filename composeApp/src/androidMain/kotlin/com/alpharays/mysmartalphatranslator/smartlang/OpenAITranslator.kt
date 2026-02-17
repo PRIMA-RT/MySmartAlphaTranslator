@@ -20,7 +20,7 @@ object OpenAITranslator {
     private const val OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 
     suspend fun translate(text: String, targetLang: String): String = withContext(Dispatchers.IO) {
-        println("YuLangLogging Translating '$text' to $targetLang")
+        println("AlphaLangLogging Translating '$text' to $targetLang")
 
         try {
             val prompt = """
@@ -59,21 +59,21 @@ object OpenAITranslator {
                 .post(requestBody.toRequestBody("application/json".toMediaType()))
                 .build()
 
-            println("YuLangLoggingRequest Body: $requestBody")
+            println("AlphaLangLoggingRequest Body: $requestBody")
 
             OkHttpClient().newCall(request).execute().use { response ->
                 if (!response.isSuccessful) {
-                    println("YuLangLoggingError Response Code: ${response.code}")
+                    println("AlphaLangLoggingError Response Code: ${response.code}")
                     return@withContext text
                 }
 
 
                 val bodyStr = response.body?.string()
-                println("YuLangLoggingResponse Code: ${response.code}")
-                println("YuLangLoggingResponse Body: $bodyStr")
+                println("AlphaLangLoggingResponse Code: ${response.code}")
+                println("AlphaLangLoggingResponse Body: $bodyStr")
 
                 if (!response.isSuccessful || bodyStr == null) {
-                    println("YuLangLoggingError Response: ${response.message}")
+                    println("AlphaLangLoggingError Response: ${response.message}")
                     return@withContext text
                 }
 
@@ -85,12 +85,12 @@ object OpenAITranslator {
                     .getString("content")
                     .trim()
 
-                println("YuLangLogging Translation Result: $translated")
+                println("AlphaLangLogging Translation Result: $translated")
                 return@withContext translated
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            println("YuLangLogging Error translating '$text': ${e.message}")
+            println("AlphaLangLogging Error translating '$text': ${e.message}")
             return@withContext text
         }
     }
