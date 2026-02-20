@@ -7,9 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.tooling.preview.Preview
-import com.alpharays.mysmartalphatranslator.smartlang.LocalTranslator
-import com.alpharays.mysmartalphatranslator.smartlang.TranslationViewModel
-import com.alpharays.mysmartalphatranslator.smartlang.TranslatorProvider
+import com.alpharays.smartalphatranslator.smartlang.LocalTranslator
+import com.alpharays.smartalphatranslator.smartlang.TranslationViewModel
+import com.alpharays.smartalphatranslator.smartlang.TranslatorProvider
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {

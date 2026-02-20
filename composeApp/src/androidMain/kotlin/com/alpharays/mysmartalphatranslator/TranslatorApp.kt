@@ -1,8 +1,8 @@
 package com.alpharays.mysmartalphatranslator
 
 import android.app.Application
-import com.alpharays.mysmartalphatranslator.smartlang.di.platformDatabaseModule
-import com.alpharays.mysmartalphatranslator.smartlang.di.translationModule
+import com.alpharays.smartalphatranslator.smartlang.di.platformDatabaseModule
+import com.alpharays.smartalphatranslator.smartlang.di.translationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

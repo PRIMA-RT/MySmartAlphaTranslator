@@ -2,11 +2,11 @@ package com.alpharays.mysmartalphatranslator
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.window.ComposeUIViewController
-import com.alpharays.mysmartalphatranslator.smartlang.LocalTranslator
-import com.alpharays.mysmartalphatranslator.smartlang.TranslationViewModel
-import com.alpharays.mysmartalphatranslator.smartlang.TranslatorProvider
-import com.alpharays.mysmartalphatranslator.smartlang.di.platformDatabaseModule
-import com.alpharays.mysmartalphatranslator.smartlang.di.translationModule
+import com.alpharays.smartalphatranslator.smartlang.LocalTranslator
+import com.alpharays.smartalphatranslator.smartlang.TranslationViewModel
+import com.alpharays.smartalphatranslator.smartlang.TranslatorProvider
+import com.alpharays.smartalphatranslator.smartlang.di.platformDatabaseModule
+import com.alpharays.smartalphatranslator.smartlang.di.translationModule
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.mp.KoinPlatform.getKoin

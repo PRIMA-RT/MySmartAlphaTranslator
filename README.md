@@ -1,63 +1,125 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web.
+# SmartAlphaTranslator
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+A Kotlin Multiplatform (KMP) translation library that provides seamless, automatic text translation for Compose Multiplatform apps. Supports Android (Google ML Kit + OpenAI) and iOS (stubs, extensible).
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## Project Structure
 
-### Build and Run Android Application
+```
+MySmartAlphaTranslator/
+├── smartalphatranslator/    ← 📚 KMP Library (publishable to JitPack)
+│   ├── src/commonMain/     ← Shared translation logic, Room DB, Koin DI
+│   ├── src/androidMain/    ← ML Kit, OpenAI, Android Room
+│   └── src/iosMain/        ← iOS stubs (extensible)
+├── composeApp/              ← 📱 Sample App (demonstrates library usage)
+│   ├── src/commonMain/     ← Shared Compose UI
+│   ├── src/androidMain/    ← Android entry point
+│   └── src/iosMain/        ← iOS entry point
+└── iosApp/                  ← iOS Xcode project
+```
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+## Installation via JitPack
 
-### Build and Run Web Application
+### Step 1: Add JitPack repository
 
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE's toolbar or run it directly from the terminal:
-- for the Wasm target (faster, modern browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-- for the JS target (slower, supports older browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:jsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
-    ```
+In your project's `settings.gradle.kts`:
 
-### Build and Run iOS Application
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+```
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+### Step 2: Add the dependency
 
----
+In your module's `build.gradle.kts`:
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+```kotlin
+dependencies {
+    implementation("com.github.prima-rt:MySmartAlphaTranslator:TAG")
+}
+```
+## Usage
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+### 1. Setup Koin modules (Android)
+
+```kotlin
+class MyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
+            androidLogger()
+            androidContext(this@MyApp)
+            modules(
+                platformDatabaseModule,
+                translationModule
+            )
+        }
+    }
+}
+```
+
+### 2. Provide the translator to your Compose tree
+
+```kotlin
+class MainActivity : ComponentActivity() {
+    private val translationViewModel: TranslationViewModel by inject()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        val translatorProvider = TranslatorProvider(
+            currentLanguage = translationViewModel.language,
+            translate = { text -> translationViewModel.translate(text) }
+        )
+
+        setContent {
+            CompositionLocalProvider(LocalTranslator provides translatorProvider) {
+                // Your app content
+            }
+        }
+    }
+}
+```
+
+### 3. Use SmartAutoText in your composables
+
+```kotlin
+@Composable
+fun MyScreen() {
+    SmartAutoText("Hello, World!") // Automatically translated!
+}
+```
+
+### 4. Change language programmatically
+
+```kotlin
+translationViewModel.setLanguage("Hindi")
+translationViewModel.setLanguage("Japanese")
+translationViewModel.setLanguage("Spanish")
+```
+
+### 5. Switch translation model
+
+```kotlin
+translationViewModel.setTranslatorModel(TranslatorModel.GoogleMlKit)
+translationViewModel.setTranslatorModel(TranslatorModel.OpenAi)
+```
+
+## Supported Languages
+
+Hindi, Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada, Urdu, Japanese, Chinese, Spanish, French, German, Italian, Korean, Arabic, Russian, Portuguese, Thai, Vietnamese, Indonesian, Turkish, Dutch, Polish, Swedish, English
+
+## Building Locally
+
+```bash
+./gradlew :smartalphatranslator:assembleDebug   # Build library
+./gradlew :composeApp:assembleDebug             # Build sample app
+```
+
+## License
+
+Apache 2.0
