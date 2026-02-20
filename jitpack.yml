@@ -6,4 +6,4 @@ before_install:
 install:
   - FILE="local.properties"
   - echo "sdk.dir=$ANDROID_HOME" > $FILE
-  - ./gradlew :smartalphatranslator:publishToMavenLocal
+  - ./gradlew :smartalphatranslator:publishAndroidDebugPublicationToMavenLocal :smartalphatranslator:publishAndroidReleasePublicationToMavenLocal

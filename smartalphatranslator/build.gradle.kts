@@ -108,7 +108,7 @@ android {
 }
 
 dependencies {
-    // Room KSP processor for all targets
+    // Room KSP processor for platform targets only
     add("kspAndroid", libs.room.compiler)
     add("kspIosArm64", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
