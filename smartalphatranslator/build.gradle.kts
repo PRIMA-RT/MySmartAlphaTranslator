@@ -54,10 +54,11 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            // Koin (Multiplatform DI)
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
+            // Koin (Multiplatform DI) — exposed as api so consumers can
+            // call startKoin, inject(), etc. to initialize the library
+            api(libs.koin.core)
+            api(libs.koin.compose)
+            api(libs.koin.compose.viewmodel)
             // Room KMP
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
@@ -77,8 +78,9 @@ kotlin {
             implementation(libs.kotlinx.coroutines.play.services)
             // OkHttp (Android-only, for OpenAI translator)
             implementation(libs.okhttp)
-            // Koin Android
-            implementation(libs.koin.android)
+            // Koin Android — exposed as api so consumers can call
+            // androidContext(), androidLogger() in their Application class
+            api(libs.koin.android)
             // Ktor OkHttp engine (Android)
             implementation(libs.ktor.client.okhttp)
         }
