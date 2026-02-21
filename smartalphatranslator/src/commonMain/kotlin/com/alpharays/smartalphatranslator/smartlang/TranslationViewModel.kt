@@ -44,10 +44,10 @@ class TranslationViewModel(
             return cached
         }
 
-        val translated = if (_translatorModel.value == TranslatorModel.OpenAi) {
-            PlatformTranslator.translateWithOpenAI(text, _language.value)
-        } else {
-            PlatformTranslator.translateWithMlKit(text, _language.value)
+        val translated = when (_translatorModel.value) {
+            TranslatorModel.OpenAi -> PlatformTranslator.translateWithOpenAI(text, _language.value)
+            TranslatorModel.OpenRouter -> PlatformTranslator.translateWithOpenRouter(text, _language.value)
+            TranslatorModel.GoogleMlKit -> PlatformTranslator.translateWithMlKit(text, _language.value)
         }
 
         memoryCache[key] = translated
@@ -68,5 +68,6 @@ class TranslationViewModel(
 
 sealed class TranslatorModel(val name: String) {
     object OpenAi : TranslatorModel("OpenAI")
+    object OpenRouter : TranslatorModel("OpenRouter")
     object GoogleMlKit : TranslatorModel("GoogleMlKit")
 }

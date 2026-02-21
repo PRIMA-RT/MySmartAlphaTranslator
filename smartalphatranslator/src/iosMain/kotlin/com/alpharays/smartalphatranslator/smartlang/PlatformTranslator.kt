@@ -21,4 +21,10 @@ actual object PlatformTranslator {
         println("AlphaLangLogging iOS OpenAI not yet implemented, returning original text")
         return text
     }
+
+    actual suspend fun translateWithOpenRouter(text: String, targetLang: String): String {
+        // TODO: Implement via Ktor HTTP client on iOS
+        println("AlphaLangLogging iOS OpenRouter not yet implemented, returning original text")
+        return text
+    }
 }

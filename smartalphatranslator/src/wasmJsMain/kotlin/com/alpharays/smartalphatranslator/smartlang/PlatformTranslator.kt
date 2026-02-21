@@ -18,4 +18,9 @@ actual object PlatformTranslator {
         println("AlphaLangLogging WASM OpenAI not yet implemented, returning original text")
         return text
     }
+
+    actual suspend fun translateWithOpenRouter(text: String, targetLang: String): String {
+        println("AlphaLangLogging WASM OpenRouter not yet implemented, returning original text")
+        return text
+    }
 }

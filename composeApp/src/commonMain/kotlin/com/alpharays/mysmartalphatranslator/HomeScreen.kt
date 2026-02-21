@@ -155,7 +155,7 @@ fun HomeScreen(
             // ── Feature cards ──
             val features = listOf(
                 Triple("🔤", "SmartAutoText", "Replace Text() with SmartAutoText() and every string auto-translates to the selected language."),
-                Triple("🤖", "Dual Engine", "Choose Google ML Kit for offline speed or OpenAI GPT for contextual accuracy — per request."),
+                Triple("🤖", "Triple Engine", "Choose Google ML Kit for offline speed, OpenAI GPT for contextual accuracy, or OpenRouter for free cloud translation."),
                 Triple("💾", "Smart Caching", "Room-backed translation cache with in-memory layer. Translate once, display instantly thereafter."),
                 Triple("📱", "Multiplatform", "Works on Android & iOS with a single shared codebase. Compose Multiplatform ready.")
             )

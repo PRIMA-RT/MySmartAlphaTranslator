@@ -241,6 +241,7 @@ fun TranslationPlaygroundScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
 
+                    // Offline row
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -253,12 +254,40 @@ fun TranslationPlaygroundScreen(
                             onClick = { selectedModel = TranslatorModel.GoogleMlKit },
                             modifier = Modifier.weight(1f)
                         )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Cloud section label
+                    SmartAutoText(
+                        text = "Cloud Engines",
+                        color = SoftWhite.copy(alpha = 0.5f),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = 1.sp,
+                        autoTranslate = false
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // Cloud row — OpenAI + OpenRouter
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
                         ModelChip(
                             label = "OpenAI",
                             emoji = "🤖",
                             subtitle = "Cloud",
                             isSelected = selectedModel == TranslatorModel.OpenAi,
                             onClick = { selectedModel = TranslatorModel.OpenAi },
+                            modifier = Modifier.weight(1f)
+                        )
+                        ModelChip(
+                            label = "OpenRouter",
+                            emoji = "🌐",
+                            subtitle = "Cloud",
+                            isSelected = selectedModel == TranslatorModel.OpenRouter,
+                            onClick = { selectedModel = TranslatorModel.OpenRouter },
                             modifier = Modifier.weight(1f)
                         )
                     }
