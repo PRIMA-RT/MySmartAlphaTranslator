@@ -20,4 +20,6 @@ abstract class TranslationAppDatabase : RoomDatabase() {
 
 // Room KMP requires this for multiplatform database construction
 @Suppress("NO_ACTUAL_FOR_EXPECT")
-expect object TranslationAppDatabaseConstructor : RoomDatabaseConstructor<TranslationAppDatabase>
+expect object TranslationAppDatabaseConstructor : RoomDatabaseConstructor<TranslationAppDatabase> {
+    override fun initialize(): TranslationAppDatabase
+}
