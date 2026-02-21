@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.alpharays.smartalphatranslator.smartlang.SmartAutoText
 import com.alpharays.smartalphatranslator.smartlang.TranslationViewModel
 import com.alpharays.smartalphatranslator.smartlang.TranslatorModel
+import kotlinx.coroutines.delay
 
 // ── Color palette (matches HomeScreen) ──
 private val DeepIndigo = Color(0xFF1A1040)
@@ -62,12 +63,27 @@ fun TranslationPlaygroundScreen(
     val currentLanguage by translationViewModel.language.collectAsState()
 
     var inputText by remember { mutableStateOf("") }
+    var debouncedText by remember { mutableStateOf("") }
+    var isTyping by remember { mutableStateOf(false) }
     var selectedModel by remember { mutableStateOf<TranslatorModel>(TranslatorModel.GoogleMlKit) }
     var isLanguageDropdownExpanded by remember { mutableStateOf(false) }
 
     // Animate appearance
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { visible = true }
+
+    // 2-second debounce: only translate after user stops typing
+    LaunchedEffect(inputText) {
+        if (inputText.isNotEmpty()) {
+            isTyping = true
+            delay(2000)
+            isTyping = false
+            debouncedText = inputText
+        } else {
+            isTyping = false
+            debouncedText = ""
+        }
+    }
 
     // Apply model changes
     LaunchedEffect(selectedModel) {
@@ -351,9 +367,33 @@ fun TranslationPlaygroundScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
+            // ── Typing indicator ──
+            AnimatedVisibility(
+                visible = isTyping && inputText.isNotEmpty(),
+                enter = fadeIn(tween(200)),
+                exit = fadeOut(tween(200))
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(14.dp),
+                        color = VividViolet,
+                        strokeWidth = 2.dp
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Waiting for you to finish typing…",
+                        color = SoftWhite.copy(alpha = 0.4f),
+                        fontSize = 12.sp
+                    )
+                }
+            }
+
             // ── Translation output ──
             AnimatedVisibility(
-                visible = visible && inputText.isNotEmpty(),
+                visible = visible && debouncedText.isNotEmpty() && !isTyping,
                 enter = fadeIn(tween(300)) + expandVertically(tween(300)),
                 exit = fadeOut(tween(200)) + shrinkVertically(tween(200))
             ) {
@@ -383,7 +423,7 @@ fun TranslationPlaygroundScreen(
                     ) {
                         Box(modifier = Modifier.padding(20.dp)) {
                             SmartAutoText(
-                                text = inputText,
+                                text = debouncedText,
                                 color = MintGreen,
                                 fontSize = 16.sp,
                                 lineHeight = 24.sp
