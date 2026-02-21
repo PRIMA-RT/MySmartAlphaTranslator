@@ -28,6 +28,7 @@ okhttp = "4.12.0"
 ktor = "3.0.3"
 kotlinxSerialization = "1.7.3"
 kotlinSerialization = "2.3.0"
+navigationCompose = "2.9.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -74,6 +75,8 @@ ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.r
 ktor-client-js = { group = "io.ktor", name = "ktor-client-js", version.ref = "ktor" }
 # Kotlinx Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+# Navigation Compose (Multiplatform)
+navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
