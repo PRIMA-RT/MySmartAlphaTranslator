@@ -6,25 +6,22 @@
 package com.alpharays.smartalphatranslator.smartlang
 
 /**
- * iOS implementation - stub for now
- * TODO: Integrate with Apple's Translation framework or MLKit iOS
+ * iOS implementation.
+ * ML Kit: Not available on iOS — returns original text.
+ * OpenAI & OpenRouter: Implemented via Ktor + Darwin HTTP engine.
  */
 actual object PlatformTranslator {
     actual suspend fun translateWithMlKit(text: String, targetLang: String): String {
-        // TODO: Implement iOS translation using Apple's Translation framework
+        // ML Kit is Android-only; on iOS this is a no-op stub
         println("AlphaLangLogging iOS ML Kit not available, returning original text")
         return text
     }
 
     actual suspend fun translateWithOpenAI(text: String, targetLang: String): String {
-        // TODO: Implement via Ktor HTTP client on iOS
-        println("AlphaLangLogging iOS OpenAI not yet implemented, returning original text")
-        return text
+        return IosOpenAITranslator.translate(text, targetLang)
     }
 
     actual suspend fun translateWithOpenRouter(text: String, targetLang: String): String {
-        // TODO: Implement via Ktor HTTP client on iOS
-        println("AlphaLangLogging iOS OpenRouter not yet implemented, returning original text")
-        return text
+        return IosOpenRouterTranslator.translate(text, targetLang)
     }
 }
