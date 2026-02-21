@@ -27,14 +27,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CompositionLocalProvider(LocalTranslator provides translatorProvider) {
-                App()
+                App(translationViewModel)
             }
         }
     }
 }
 
+
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    App()
+    // Preview not available — App requires TranslationViewModel
 }

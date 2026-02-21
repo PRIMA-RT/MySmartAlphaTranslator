@@ -31,6 +31,6 @@ fun MainViewController() = ComposeUIViewController {
     )
 
     CompositionLocalProvider(LocalTranslator provides translatorProvider) {
-        App()
+        App(translationViewModel)
     }
 }

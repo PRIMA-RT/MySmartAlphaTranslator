@@ -10,9 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.alpharays.smartalphatranslator.smartlang.LocalTranslator
 import com.alpharays.smartalphatranslator.smartlang.TranslationViewModel
-import org.koin.compose.viewmodel.koinViewModel
 
 private val AppDarkColorScheme = darkColorScheme(
     primary = Color(0xFF9B5DFF),
@@ -27,10 +25,7 @@ private val AppDarkColorScheme = darkColorScheme(
 )
 
 @Composable
-@Preview
-fun App() {
-    val translationViewModel: TranslationViewModel = koinViewModel()
-
+fun App(translationViewModel: TranslationViewModel) {
     MaterialTheme(colorScheme = AppDarkColorScheme) {
         val navController = rememberNavController()
 
