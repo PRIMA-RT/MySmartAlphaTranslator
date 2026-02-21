@@ -45,8 +45,8 @@ class TranslationViewModel(
         }
 
         val translated = when (_translatorModel.value) {
-            TranslatorModel.OpenAi -> PlatformTranslator.translateWithOpenAI(text, _language.value)
-            TranslatorModel.OpenRouter -> PlatformTranslator.translateWithOpenRouter(text, _language.value)
+            TranslatorModel.OpenAi -> OpenAITranslator.translate(text, _language.value)
+            TranslatorModel.OpenRouter -> OpenRouterTranslator.translate(text, _language.value)
             TranslatorModel.GoogleMlKit -> PlatformTranslator.translateWithMlKit(text, _language.value)
         }
 
