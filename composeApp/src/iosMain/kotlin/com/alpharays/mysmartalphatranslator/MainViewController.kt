@@ -18,7 +18,7 @@ fun initKoin() {
     // Configure SmartAlphaTranslator API keys
     SmartTranslatorConfig.init(
         openAiApiKey = "",                   // your OpenAI key
-        openRouterApiKey = "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"
+        openRouterApiKey = ""                // your OpenRouter key
     )
 
     startKoin {
