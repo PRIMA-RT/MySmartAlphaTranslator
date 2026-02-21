@@ -3,6 +3,7 @@ package com.alpharays.mysmartalphatranslator
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.window.ComposeUIViewController
 import com.alpharays.smartalphatranslator.smartlang.LocalTranslator
+import com.alpharays.smartalphatranslator.smartlang.SmartTranslatorConfig
 import com.alpharays.smartalphatranslator.smartlang.TranslationViewModel
 import com.alpharays.smartalphatranslator.smartlang.TranslatorProvider
 import com.alpharays.smartalphatranslator.smartlang.di.platformDatabaseModule
@@ -13,6 +14,13 @@ import org.koin.mp.KoinPlatform.getKoin
 
 fun initKoin() {
     stopKoin() // safe to call even if not started
+
+    // Configure SmartAlphaTranslator API keys
+    SmartTranslatorConfig.init(
+        openAiApiKey = "",                   // your OpenAI key
+        openRouterApiKey = "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"
+    )
+
     startKoin {
         modules(
             platformDatabaseModule,

@@ -11,13 +11,17 @@ import kotlinx.serialization.json.*
  * Works on Android (OkHttp engine) and iOS (Darwin engine) — engine auto-resolved.
  */
 object OpenAITranslator {
-    private const val OPENAI_API_KEY = ""
     private const val OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 
     private val client = HttpClient()
     private val json = Json { ignoreUnknownKeys = true }
 
     suspend fun translate(text: String, targetLang: String): String {
+        val apiKey = SmartTranslatorConfig.openAiApiKey
+        if (apiKey.isEmpty()) {
+            println("AlphaLangLogging [OpenAI] No API key configured — call SmartTranslatorConfig.init() first")
+            return text
+        }
         println("AlphaLangLogging [OpenAI] Translating '$text' to $targetLang")
 
         try {
@@ -33,7 +37,7 @@ object OpenAITranslator {
 """.trimIndent()
 
             val requestBody = buildJsonObject {
-                put("model", "gpt-4o-mini")
+                put("model", SmartTranslatorConfig.openAiModel)
                 putJsonArray("messages") {
                     addJsonObject {
                         put("role", "developer")
@@ -53,7 +57,7 @@ object OpenAITranslator {
 
             val response = client.post(OPENAI_URL) {
                 contentType(ContentType.Application.Json)
-                header("Authorization", "Bearer $OPENAI_API_KEY")
+                header("Authorization", "Bearer $apiKey")
                 setBody(requestBody.toString())
             }
 

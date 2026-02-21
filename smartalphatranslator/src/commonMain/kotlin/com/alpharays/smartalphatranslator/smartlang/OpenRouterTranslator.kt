@@ -11,14 +11,17 @@ import kotlinx.serialization.json.*
  * Works on Android (OkHttp engine) and iOS (Darwin engine) — engine auto-resolved.
  */
 object OpenRouterTranslator {
-    private const val OPENROUTER_API_KEY =
-        "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"
     private const val OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
     private val client = HttpClient()
     private val json = Json { ignoreUnknownKeys = true }
 
     suspend fun translate(text: String, targetLang: String): String {
+        val apiKey = SmartTranslatorConfig.openRouterApiKey
+        if (apiKey.isEmpty()) {
+            println("AlphaLangLogging [OpenRouter] No API key configured — call SmartTranslatorConfig.init() first")
+            return text
+        }
         println("AlphaLangLogging [OpenRouter] Translating '$text' to $targetLang")
 
         try {
@@ -34,7 +37,7 @@ object OpenRouterTranslator {
 """.trimIndent()
 
             val requestBody = buildJsonObject {
-                put("model", "openai/gpt-oss-120b")
+                put("model", SmartTranslatorConfig.openRouterModel)
                 putJsonArray("messages") {
                     addJsonObject {
                         put("role", "user")
@@ -47,7 +50,7 @@ object OpenRouterTranslator {
 
             val response = client.post(OPENROUTER_URL) {
                 contentType(ContentType.Application.Json)
-                header("Authorization", "Bearer $OPENROUTER_API_KEY")
+                header("Authorization", "Bearer $apiKey")
                 setBody(requestBody.toString())
             }
 
