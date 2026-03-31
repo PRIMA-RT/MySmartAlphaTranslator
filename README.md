@@ -12,6 +12,12 @@ A **Kotlin Multiplatform (KMP)** translation library that provides seamless, aut
 - 📱 **Multiplatform** — Android & iOS from a single shared codebase
 
 ---
+## Working Reference
+
+https://github.com/user-attachments/assets/1b0e409d-5b97-423c-b562-493080114f15
+
+
+---
 
 ## Project Structure
 
